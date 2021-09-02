@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/02 17:34:57 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/02 18:10:01 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	*read_line(int	fd, char	**line)
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
+	if (read(fd, buffer, 1) < 0)
+		return (NULL);
 	if (ft_strchr(buffer, '\n'))
 	{
 		ft_strncpy(tmp2, *line, ft_strchr(*line, '\n') - *line);
