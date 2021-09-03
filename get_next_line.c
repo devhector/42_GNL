@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 14:17:30 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 14:30:12 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static char	*check_eof(int bytes_read, char *line)
 		return (NULL);
 	}
 	return (line);
-
 }
 
 static char	*format_line(char *line, char **backup)
@@ -29,7 +28,7 @@ static char	*format_line(char *line, char **backup)
 
 	tmp = *backup;
 	*backup = ft_strdup(ft_strchr(line, '\n') + 1);
-	if(!*backup)
+	if (!*backup)
 		return (NULL);
 	free(tmp);
 	tmp = line;
@@ -37,16 +36,18 @@ static char	*format_line(char *line, char **backup)
 	if (!line)
 		return (NULL);
 	free(tmp);
-
 	return (line);
 }
 
 static char	*get_line(int fd, char *line, char **backup)
 {
-	char	buf[BUFFER_SIZE + 1];
 	char	*tmp;
-	int  	bytes_read;
+	char	*buf;
+	int		bytes_read;
 
+	buf = malloc (sizeof(char) * BUFFER_SIZE + 1);
+	if (!buf)
+		return (NULL);
 	bytes_read = 1;
 	while (bytes_read)
 	{
@@ -60,13 +61,12 @@ static char	*get_line(int fd, char *line, char **backup)
 		tmp = line;
 		line = ft_strjoin(line, buf);
 		free(tmp);
+		free(buf);
 		if (ft_strchr(line, '\n'))
 			return (format_line(line, backup));
-
 	}
 	return (check_eof(bytes_read, line));
 }
-
 
 char	*get_next_line(int fd)
 {
