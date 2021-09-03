@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 14:30:12 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 15:39:40 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static char	*get_line(int fd, char *line, char **backup)
 		tmp = line;
 		line = ft_strjoin(line, buf);
 		free(tmp);
-		free(buf);
 		if (ft_strchr(line, '\n'))
 			return (format_line(line, backup));
 	}
