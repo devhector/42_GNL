@@ -6,20 +6,11 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 10:04:04 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 12:32:30 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-/*
-Function: get_next_line
-Description: Reads a line from a file descriptor.
-Parameters:
-	fd: The file descriptor.
-Return:
-	The line read from the file descriptor.
-*/
 
 char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
@@ -53,61 +44,56 @@ char	*ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-char	*read_line(int	fd, char	**line)
+static char	*check_eof(int bytes_read, char *line)
 {
-	char	*tmp;
-	char	*tmp2;
-	char	buffer[BUFFER_SIZE + 1];
+	if (!bytes_read && line[bytes_read] == '\0')
+	{
+		free(line);
+		return (0);
+	}
+	return (line);
 
-	tmp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!tmp)
-		return (NULL);
-	while (read(fd, buffer, BUFFER_SIZE) > 0 && !ft_strchr(buffer, '\n'))
-	{
-		buffer[BUFFER_SIZE] = '\0';
-		tmp2 = *line;
-		*line = ft_strjoin(*line, buffer);
-		free(tmp2);
-		if (!*line)
-			return (NULL);
-	}
-	if (read(fd, buffer, 1) < 0)
-	{
-		free(tmp);
-		return (NULL);
-	}
-	if (ft_strchr(buffer, '\n'))
-	{
-		ft_strncpy(tmp, *line, ft_strchr(*line, '\n') - *line);
-		tmp[ft_strchr(*line, '\n') - *line] = '\0';
-		ft_strcpy(*line, ft_strchr(*line, '\n') + 1);
-		return (tmp);
-	}
-	if(!ft_strchr(*line, '\n'))
-	{
-		free(tmp);
-		return (NULL);
-	}
-	return (NULL);
 }
+
+static char	*get_line(int fd, char *line, char **buffer)
+{
+	char	buf[BUFFER_SIZE + 1];
+	int  	bytes_read;
+
+	bytes_read = 1;
+	while (bytes_read)
+	{
+		bytes_read = read(fd, buf, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			free(line);
+			return (NULL);
+		}
+		buf[bytes_read] = '\0';
+		line = ft_strjoin(line, buf);
+		if (ft_strchr(line, '\n'))
+		{
+			*buffer = ft_strdup(ft_strchr(line, '\n') + 1);
+			line = ft_substr(line, 0, ft_strlen(line) - ft_strlen(*buffer));
+			break ;
+		}
+	}
+	return (check_eof(bytes_read, line));
+}
+
 
 char	*get_next_line(int fd)
 {
-	static char	*line;
+	static char	*buff;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!line)
-		line = ft_strdup("");
-	if (read_line(fd, &line))
-		return (read_line(fd, &line));
-	else
-	{
-		if(*line)
-		{
-			free(line);
-			line = NULL;
-		}
-		return (NULL);
-	}
+	if (!buff)
+		buff = ft_strdup("");
+	line = ft_strdup(buff);
+	free(buff);
+	buff = NULL;
+	line = get_line(fd, line, &buff);
+	return (line);
 }
