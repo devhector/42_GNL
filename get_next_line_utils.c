@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:02 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 14:47:25 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 14:55:06 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ char	*ft_strjoin(char const	*s1, char const	*s2)
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
+	size_t	i;
 	size_t	s_len;
 
 	if (!s)
@@ -97,24 +98,27 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
-	ft_strlcpy(str, s + start, len + 1);
+	i = 0;
+	while (i < len && s[i + start])
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
 	return (str);
 }
 
-void	*ft_memcpy(void	*s1, const void	*s2, size_t	n)
+char	*ft_strdup(const char *s)
 {
-	char		*dst;
-	const char	*src;
+	size_t		size;
+	char		*cp_str;
 
-	if (s1 == s2)
-		return (s1);
-	dst = (char *)s1;
-	src = (const char *)s2;
-	while (n--)
-	{
-		*dst++ = *src++;
-	}
-	return (s1);
+	size = (ft_strlen(s) + 1);
+	cp_str = (char *)malloc(size * sizeof(char));
+	if (!cp_str)
+		return (NULL);
+	ft_memcpy(cp_str, s, size);
+	return (cp_str);
 }
 
 
