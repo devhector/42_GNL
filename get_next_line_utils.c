@@ -6,24 +6,11 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:02 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 14:57:23 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 15:33:46 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strchr(const char	*s, int	c)
-{
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((char)c == '\0')
-		return ((char *)s);
-	return (NULL);
-}
 
 size_t	ft_strlen(const char	*s)
 {
@@ -35,22 +22,33 @@ size_t	ft_strlen(const char	*s)
 	return (i);
 }
 
-size_t	ft_strlcpy(char	*dest, const char	*src, size_t	size)
+char	*ft_strdup(const char *s)
 {
-	size_t	i;
-	size_t	len;
+	size_t		size;
+	char		*cp_str;
 
-	i = 0;
-	len = ft_strlen(src);
-	if (!size)
-		return (len);
-	while (i < (size - 1) && i < len && src[i])
+	size = (ft_strlen(s) + 1);
+	cp_str = (char *)malloc(size * sizeof(char));
+	if (!cp_str)
+		return (NULL);
+	ft_memcpy(cp_str, s, size);
+	return (cp_str);
+}
+
+void	*ft_memcpy(void	*s1, const void	*s2, size_t	n)
+{
+	char		*dst;
+	const char	*src;
+
+	if (s1 == s2)
+		return (s1);
+	dst = (char *)s1;
+	src = (const char *)s2;
+	while (n--)
 	{
-		dest[i] = src[i];
-		i++;
+		*dst++ = *src++;
 	}
-	dest[i] = '\0';
-	return (len);
+	return (s1);
 }
 
 char	*ft_strjoin(char const	*s1, char const	*s2)
@@ -82,6 +80,19 @@ char	*ft_strjoin(char const	*s1, char const	*s2)
 	return (str);
 }
 
+char	*ft_strchr(const char	*s, int	c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if ((char)c == '\0')
+		return ((char *)s);
+	return (NULL);
+}
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
@@ -101,33 +112,20 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-
-char	*ft_strdup(const char *s)
+size_t	ft_strlcpy(char	*dest, const char	*src, size_t	size)
 {
-	size_t		size;
-	char		*cp_str;
+	size_t	i;
+	size_t	len;
 
-	size = (ft_strlen(s) + 1);
-	cp_str = (char *)malloc(size * sizeof(char));
-	if (!cp_str)
-		return (NULL);
-	ft_memcpy(cp_str, s, size);
-	return (cp_str);
-}
-
-
-void	*ft_memcpy(void	*s1, const void	*s2, size_t	n)
-{
-	char		*dst;
-	const char	*src;
-
-	if (s1 == s2)
-		return (s1);
-	dst = (char *)s1;
-	src = (const char *)s2;
-	while (n--)
+	i = 0;
+	len = ft_strlen(src);
+	if (!size)
+		return (len);
+	while (i < (size - 1) && i < len && src[i])
 	{
-		*dst++ = *src++;
+		dest[i] = src[i];
+		i++;
 	}
-	return (s1);
+	dest[i] = '\0';
+	return (len);
 }
