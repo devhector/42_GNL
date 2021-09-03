@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/02 18:16:42 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/02 22:10:47 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,11 @@ char	*get_next_line(int fd)
 		return (read_line(fd, &line));
 	else
 	{
-		free(line);
-		line = NULL;
+		if(line)
+		{
+			free(line);
+			line = NULL;
+		}
 		return (NULL);
 	}
 }
