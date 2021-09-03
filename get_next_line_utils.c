@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:02 by hectfern          #+#    #+#             */
-/*   Updated: 2021/08/31 20:33:45 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 14:14:55 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,6 @@ char	*ft_strchr(const char	*s, int	c)
 	if ((char)c == '\0')
 		return ((char *)s);
 	return (NULL);
-}
-
-void	*ft_calloc(size_t n, size_t size)
-{
-	void	*ptr;
-	char	*aux;
-	size_t	numb;
-
-	if (n == 0 || size == 0)
-	{
-		n = 1;
-		size = 1;
-	}
-	ptr = malloc(n * size);
-	if (ptr)
-	{
-		numb = size * n;
-		aux = (char *)ptr;
-		while (numb--)
-			*aux++ = '\0';
-	}
-	return (ptr);
 }
 
 size_t	ft_strlen(const char	*s)
