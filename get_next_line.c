@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/02 22:45:21 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 10:04:04 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,36 +55,37 @@ char	*ft_strcpy(char *dest, char *src)
 
 char	*read_line(int	fd, char	**line)
 {
+	char	*tmp;
 	char	*tmp2;
 	char	buffer[BUFFER_SIZE + 1];
 
-	tmp2 = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!tmp2)
+	tmp = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!tmp)
 		return (NULL);
-	while (read(fd, buffer, BUFFER_SIZE) > 0)
+	while (read(fd, buffer, BUFFER_SIZE) > 0 && !ft_strchr(buffer, '\n'))
 	{
 		buffer[BUFFER_SIZE] = '\0';
+		tmp2 = *line;
 		*line = ft_strjoin(*line, buffer);
+		free(tmp2);
 		if (!*line)
 			return (NULL);
-		if (ft_strchr(buffer, '\n'))
-			break ;
 	}
 	if (read(fd, buffer, 1) < 0)
 	{
-		free(tmp2);
+		free(tmp);
 		return (NULL);
 	}
 	if (ft_strchr(buffer, '\n'))
 	{
-		ft_strncpy(tmp2, *line, ft_strchr(*line, '\n') - *line);
-		tmp2[ft_strchr(*line, '\n') - *line] = '\0';
+		ft_strncpy(tmp, *line, ft_strchr(*line, '\n') - *line);
+		tmp[ft_strchr(*line, '\n') - *line] = '\0';
 		ft_strcpy(*line, ft_strchr(*line, '\n') + 1);
-		return (tmp2);
+		return (tmp);
 	}
 	if(!ft_strchr(*line, '\n'))
 	{
-		free(tmp2);
+		free(tmp);
 		return (NULL);
 	}
 	return (NULL);
@@ -102,7 +103,7 @@ char	*get_next_line(int fd)
 		return (read_line(fd, &line));
 	else
 	{
-		if(line)
+		if(*line)
 		{
 			free(line);
 			line = NULL;
