@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 16:04:29 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 16:07:25 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,9 @@ static char	*format_line(char	*line, char	**backup, char	*buffer)
 		free(buffer);
 	tmp = *backup;
 	*backup = ft_strdup(ft_strchr(line, '\n') + 1);
-	if (!*backup)
-		return (NULL);
 	free(tmp);
 	tmp = line;
 	line = ft_substr(line, 0, ft_strlen(line) - ft_strlen(*backup));
-	if (!line)
-		return (NULL);
 	free(tmp);
 	return (line);
 }
