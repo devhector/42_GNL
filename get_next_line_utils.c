@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:02 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 14:14:55 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 14:38:18 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
 	size_t	s_len;
+	size_t	i;
 
 	if (!s)
 		return (NULL);
@@ -97,35 +98,32 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
-	ft_strlcpy(str, s + start, len + 1);
+	i = 0;
+	while (i < len && s[start + i])
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
+//	ft_strlcpy(str, s + start, len + 1);
 	return (str);
 }
 
 char	*ft_strdup(const char *s)
 {
 	size_t		size;
+	size_t		i;
 	char		*cp_str;
 
 	size = (ft_strlen(s) + 1);
 	cp_str = (char *)malloc(size * sizeof(char));
 	if (!cp_str)
 		return (NULL);
-	ft_memcpy(cp_str, s, size);
-	return (cp_str);
-}
-
-void	*ft_memcpy(void	*s1, const void	*s2, size_t	n)
-{
-	char		*dst;
-	const char	*src;
-
-	if (s1 == s2)
-		return (s1);
-	dst = (char *)s1;
-	src = (const char *)s2;
-	while (n--)
+	i = 0;
+	while (i < size)
 	{
-		*dst++ = *src++;
+		cp_str[i] = s[i];
+		i++;
 	}
-	return (s1);
+	return (cp_str);
 }
