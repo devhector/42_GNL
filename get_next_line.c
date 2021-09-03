@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 12:32:30 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/03 12:50:18 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static char	*check_eof(int bytes_read, char *line)
 static char	*get_line(int fd, char *line, char **buffer)
 {
 	char	buf[BUFFER_SIZE + 1];
+	char	*tmp;
 	int  	bytes_read;
 
 	bytes_read = 1;
@@ -70,10 +71,14 @@ static char	*get_line(int fd, char *line, char **buffer)
 			return (NULL);
 		}
 		buf[bytes_read] = '\0';
+		tmp = line;
 		line = ft_strjoin(line, buf);
+		free(tmp);
 		if (ft_strchr(line, '\n'))
 		{
+			tmp = *buffer;
 			*buffer = ft_strdup(ft_strchr(line, '\n') + 1);
+			free(tmp);
 			line = ft_substr(line, 0, ft_strlen(line) - ft_strlen(*buffer));
 			break ;
 		}
