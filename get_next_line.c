@@ -6,80 +6,105 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 21:02:10 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/04 17:30:43 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strchr(const char	*s, int	c)
-{
-	char	*str;
-	size_t	i;
+static char	*get_line(char	*backup);
+static char	*remove_read_line(char *backup);
+static char	*read_file(int fd, char *backup);
 
-	str = (char *)s;
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == (char)c)
-			return (str + i);
-		i++;
-	}
-	if ((char)c == '\0')
-		return (str + i);
-	return (0);
+char	*get_next_line(int fd)
+{
+	char		*line;
+	static char	*backup;
+
+	if (fd < 0 || BUFFER_SIZE < 1)
+		return (NULL);
+	backup = read_file(fd, backup);
+	if (!backup)
+		return (NULL);
+	line = get_line(backup);
+	backup = remove_read_line(backup);
+	return (line);
 }
 
-char	*remove_line_read(char *backup)
+static char	*read_file(int fd, char *backup)
 {
-	char	*tmp;
+	char	*buffer;
+	int		read_bytes;
 
-	tmp = backup;
-	backup = ft_strdup(ft_strchr(backup, '\n') + 1);
-	free(tmp);
-	if(*backup == '\0')
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
+	read_bytes = 1;
+	while (read_bytes > 0 && !ft_strchr(backup, '\n'))
+	{
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
+		if (read_bytes < 0)
+			break ;
+		buffer[read_bytes] = '\0';
+		backup = ft_strjoin(backup, buffer);
+	}
+	free(buffer);
+	if (read_bytes < 0)
+		return (NULL);
+	else
+		return (backup);
+}
+
+static char	*get_line(char	*backup)
+{
+	char	*line;
+	size_t	size;
+
+	if (!*backup)
+		return (NULL);
+	size = 0;
+	while (backup[size] && backup[size] != '\n')
+		size++;
+	line = (char *)malloc(sizeof(char) * (size + 2));
+	if (!line)
+		return (NULL);
+	size = 0;
+	while (backup[size] && backup[size] != '\n')
+	{
+		line[size] = backup[size];
+		size++;
+	}
+	if (backup[size] == '\n')
+	{
+		line[size] = backup[size];
+		size++;
+	}
+	line[size] = '\0';
+	return (line);
+}
+
+static char	*remove_read_line(char *backup)
+{
+	int		i;
+	int		j;
+	char	*new;
+
+	i = 0;
+	while (backup[i] && backup[i] != '\n')
+		i++;
+	if (!backup[i])
 	{
 		free(backup);
 		return (NULL);
 	}
-	return (backup);
-}
-
-int	check_bytes_read(int bytes_read, char *buffer)
-{
-	if (bytes_read == -1)
-	{
-		free(buffer);
-		return (1);
-	}
-	return (0);
-}
-
-char	*get_next_line(int	fd)
-{
-	char	*line;
-	char	*buffer;
-	static char	*backup;
-	int	bytes_read;
-
-	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buffer)
+	new = (char *)malloc(sizeof(char) * (ft_strlen(backup) - i + 1));
+	if (!new)
 		return (NULL);
-	bytes_read = 1;
-	while (bytes_read > 0 && !ft_strchr(buffer, '\n'))
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		buffer[bytes_read] = '\0';
-		if (check_bytes_read(bytes_read, buffer))
-			return (NULL);
-		if (!bytes_read)
-			break ;
-		backup = ft_strjoin(backup, buffer);
-	}
-	free(buffer);
-	if(!backup)
-		return (NULL);
-	line = ft_substr(backup, 0, ft_strchr(backup, '\n') - backup + 1);
-	backup = remove_line_read(backup);
-	return (line);
+	i++;
+	j = 0;
+	while (backup[i])
+		new[j++] = backup[i++];
+	new[j] = '\0';
+	free(backup);
+	return (new);
 }

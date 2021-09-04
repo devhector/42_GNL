@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:02 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/03 20:29:30 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/04 17:41:33 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ size_t	ft_strlen(const char	*s)
 	return (i);
 }
 
+char	*ft_strchr(const char	*s, int	c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char) c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	return (NULL);
+}
+
 char	*ft_strdup(const char *s)
 {
 	size_t		size;
@@ -35,51 +51,30 @@ char	*ft_strdup(const char *s)
 	return (cp_str);
 }
 
-
 char	*ft_strjoin(char	*s1, char const	*s2)
 {
-	char	*join;
 	size_t	i;
-	size_t	r;
-	size_t	tl;
-
-	tl = ft_strlen(s1) + ft_strlen(s2);
-	if (tl < 1)
-		return (0);
-	join = (char *)malloc((tl + 1) * sizeof(char));
-	if (!join)
-		return (0);
-	i = 0;
-	r = 0;
-	if (s1)
-	{
-		while ((i < tl) && s1[i])
-			join[i++] = s1[r++];
-	}
-	r = 0;
-	while ((i < tl) && s2[r])
-		join[i++] = s2[r++];
-	join[i] = '\0';
-	free(s1);
-	return (join);
-}
-
-char	*ft_substr(char	*s, unsigned int	start, size_t	len)
-{
+	size_t	j;
 	char	*str;
-	size_t	s_len;
 
-	if (!s)
+	if (!s1)
+		s1 = ft_strdup("");
+	if (!s1 || !s2)
 		return (NULL);
-	s_len = ft_strlen(s);
-	if (start > s_len)
-		return (ft_strdup(""));
-	else if (start + len > s_len)
-		len = s_len - start;
-	str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!str)
+	str = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
+	if (str == NULL)
 		return (NULL);
-	ft_strlcpy(str, s + start, len + 1);
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+		str[i++] = s2[j++];
+	str[i] = '\0';
+	free(s1);
 	return (str);
 }
 
