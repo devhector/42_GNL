@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:17 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/05 15:08:10 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/05 15:50:50 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # endif
 
 # ifndef OPEN_MAX
-# define OPEN_MAX 256
+#  define OPEN_MAX 256
 # endif
 
 # include <unistd.h>
