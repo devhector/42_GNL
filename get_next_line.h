@@ -6,16 +6,12 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:17 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/04 18:26:59 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/04 21:08:08 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-
-# ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-# endif
 
 # include <unistd.h>
 # include <stdlib.h>
