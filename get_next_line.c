@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/05 13:24:05 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/05 13:26:12 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,12 @@ static char	*get_line(char	*backup)
 	line = (char *)malloc(sizeof(char) * (size + 2));
 	if (!line)
 		return (NULL);
-	// size = 0;
-	// while (backup[size] && backup[size] != '\n')
-	// {
-	// 	line[size] = backup[size];
-	// 	size++;
-	// }
-	ft_strlcpy(line, backup, size);
+	size = 0;
+	while (backup[size] && backup[size] != '\n')
+	{
+		line[size] = backup[size];
+		size++;
+	}
 	if (backup[size] == '\n')
 	{
 		line[size] = backup[size];
