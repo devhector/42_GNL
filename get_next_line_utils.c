@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:02 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/04 18:27:12 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/05 13:14:07 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_strlen(const char	*s)
 	size_t	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s[i])
 		i++;
 	return (i);
 }
@@ -29,7 +29,7 @@ char	*ft_strchr(const char	*s, int	c)
 	i = 0;
 	if (!s)
 		return (NULL);
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		if (s[i] == (char) c)
 			return ((char *)&s[i]);
@@ -62,16 +62,16 @@ char	*ft_strjoin(char	*s1, char const	*s2)
 	if (!s1 || !s2)
 		return (NULL);
 	str = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
-	if (str == NULL)
+	if (!str)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (s1[i] != '\0')
+	while (s1[i])
 	{
 		str[i] = s1[i];
 		i++;
 	}
-	while (s2[j] != '\0')
+	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
 	free(s1);
