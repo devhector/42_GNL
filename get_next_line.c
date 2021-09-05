@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:08 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/05 13:44:23 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/05 14:51:44 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*remove_read_line(char *backup)
 {
 	int		i;
 	int		j;
-	char	*new;
+	char	*new_backup;
 
 	i = 0;
 	while (backup[i] && backup[i] != '\n')
@@ -89,14 +89,14 @@ static char	*remove_read_line(char *backup)
 		free(backup);
 		return (NULL);
 	}
-	new = (char *)malloc(sizeof(char) * (ft_strlen(backup) - i + 1));
-	if (!new)
+	new_backup = (char *)malloc(sizeof(char) * (ft_strlen(backup) - i + 1));
+	if (!new_backup)
 		return (NULL);
 	i++;
 	j = 0;
 	while (backup[i])
-		new[j++] = backup[i++];
-	new[j] = '\0';
+		new_backup[j++] = backup[i++];
+	new_backup[j] = '\0';
 	free(backup);
-	return (new);
+	return (new_backup);
 }
