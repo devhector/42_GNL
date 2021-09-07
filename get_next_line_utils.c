@@ -6,7 +6,7 @@
 /*   By: hectfern <hectfern@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/17 10:34:02 by hectfern          #+#    #+#             */
-/*   Updated: 2021/09/05 13:14:07 by hectfern         ###   ########.fr       */
+/*   Updated: 2021/09/06 22:36:57 by hectfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,22 @@ char	*ft_strchr(const char	*s, int	c)
 char	*ft_strdup(const char *s)
 {
 	size_t		size;
+	size_t		i;
 	char		*cp_str;
 
-	size = (ft_strlen(s) + 1);
+	i = 0;
+	while (s[i])
+		i++;
+	size = (i + 1);
 	cp_str = (char *)malloc(size * sizeof(char));
 	if (!cp_str)
 		return (NULL);
-	ft_strlcpy(cp_str, s, size);
+	i = 0;
+	while (i < size)
+	{
+		cp_str[i] = s[i];
+		i++;
+	}
 	return (cp_str);
 }
 
@@ -61,16 +70,17 @@ char	*ft_strjoin(char	*s1, char const	*s2)
 		s1 = ft_strdup("");
 	if (!s1 || !s2)
 		return (NULL);
-	str = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
+	i = 0;
+	while (s1[i])
+		i++;
+	j = 0;
+	while (s2[j])
+		j++;
+	str = malloc(sizeof(char) * (i + j + 1));
 	if (!str)
 		return (NULL);
-	i = 0;
 	j = 0;
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
+	ft_strlcpy(str, s1, i + 1);
 	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
@@ -84,7 +94,9 @@ size_t	ft_strlcpy(char	*dest, const char	*src, size_t	size)
 	size_t	len;
 
 	i = 0;
-	len = ft_strlen(src);
+	len = 0;
+	while (src[len])
+		len++;
 	if (!size)
 		return (len);
 	while (i < (size - 1) && i < len && src[i])
